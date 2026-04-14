@@ -1,0 +1,79 @@
+// MongoDB Day 1 Practice
+
+// Use Database
+use school
+
+// Show databases
+show dbs
+
+// Create collections
+db.createCollection("students")
+db.createCollection("library")
+
+// Show collections
+show collections
+
+// Rename collection
+db.students.renameCollection("student")
+
+// Drop collection
+db.library.drop()
+
+// Insert one document
+db.student.insertOne({
+  name: "Asif Khan",
+  rollno: 29,
+  class: "ECS"
+})
+
+// View data
+db.student.find()
+
+// Insert many documents
+db.student.insertMany([
+  { name: "Maaz Khan", rollno: 28, class: "ECS" },
+  { name: "Mashuk Khan", rollno: 31, class: "ECS" },
+  { name: "Zaid Khan", rollno: 32, class: "ECS" }
+])
+
+// View all data
+db.student.find()
+
+// Create personal collection
+db.createCollection("personal")
+
+// Insert complex document
+db.personal.insertOne({
+  name: "Asif Khan",
+  age: 45,
+  married: true,
+  weight: 72.50,
+  kids: null,
+  hobbies: ["music", "sports"],
+  address: {
+    street: "123 feet road",
+    city: "Mumbai"
+  },
+  dob: ISODate("2000-10-15T08:00:00Z")
+})
+
+// Insert with current date
+db.personal.insertOne({
+  name: "Asif Khan",
+  age: 45,
+  married: true,
+  weight: 72.50,
+  kids: null,
+  hobbies: ["music", "sports"],
+  address: {
+    street: "123 feet road",
+    city: "Mumbai"
+  },
+  dob: new Date()
+})
+
+// View personal collection
+db.personal.find()
+
+// Drop database (for practice)
+db.dropDatabase()
