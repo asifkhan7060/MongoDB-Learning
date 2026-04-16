@@ -1,0 +1,125 @@
+MongoDB Day 2 Learning
+
+Topics Covered:
+- Collection without validation
+- Inserting invalid data (no restrictions)
+- Creating collection with schema validation
+- JSON Schema validation ($jsonSchema)
+- Required fields validation
+- Data type validation (string, number)
+- Range validation (minimum, maximum)
+- Enum validation
+- Validation errors and messages
+- Modifying schema using collMod
+
+Commands Learned:
+
+1. Use Database
+use school
+
+2. Show Collections
+show collections
+
+3. Create Collection (Without Validation)
+db.createCollection("Children")
+
+4. Insert Invalid Data (No Validation)
+db.Children.insertOne({
+  name: 89,
+  age: "hello",
+  course: 98.87
+})
+
+5. View Data
+db.Children.find()
+
+6. Drop Collection
+db.Children.drop()
+
+7. Create Collection With Validation
+db.createCollection("childrens", {
+  validator: {
+    $jsonSchema: {
+      title: "Student Object Validation",
+      required: ["name", "age", "course"],
+      properties: {
+        name: {
+          bsonType: "string",
+          description: "Name must be string and required"
+        },
+        age: {
+          bsonType: "number",
+          minimum: 5,
+          maximum: 20,
+          description: "Age must be between 5 and 20"
+        },
+        course: {
+          bsonType: "string",
+          enum: ["Btech", "BCA", "BSc"],
+          description: "Course must be one of the specified values"
+        }
+      }
+    }
+  }
+})
+
+8. Insert Valid Document
+db.childrens.insertOne({
+  name: "Ali",
+  age: 18,
+  course: "Btech"
+})
+
+9. View Data
+db.childrens.find()
+
+10. Insert Invalid Document (Validation Error)
+db.childrens.insertOne({
+  name: "Ali",
+  age: 25,
+  course: "MBA"
+})
+
+11. Modify Existing Schema (collMod)
+db.runCommand({
+  collMod: "childrens",
+  validator: {
+    $jsonSchema: {
+      title: "Updated Student Validation",
+      required: ["name", "age", "course"],
+      properties: {
+        name: {
+          bsonType: "string",
+          description: "Name must be string"
+        },
+        age: {
+          bsonType: "number",
+          minimum: 5,
+          maximum: 25,
+          description: "Age must be between 5 and 25"
+        },
+        course: {
+          bsonType: "string",
+          enum: ["Btech", "BCA", "BSc", "MCA"],
+          description: "Allowed courses"
+        }
+      }
+    }
+  },
+  validationLevel: "strict",
+  validationAction: "error"
+})
+
+12. Insert Valid After Update
+db.childrens.insertOne({
+  name: "Ali",
+  age: 22,
+  course: "MCA"
+})
+
+13. Insert Invalid After Update
+db.childrens.insertOne({
+  name: "Ali",
+  age: 30,
+  course: "MBA"
+})
