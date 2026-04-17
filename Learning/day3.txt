@@ -1,0 +1,181 @@
+MongoDB Day 3 Learning
+
+Topics Covered:
+- updateOne vs updateMany
+- $set, $inc, $mul
+- $unset (remove fields)
+- $rename (rename fields)
+- $currentDate
+- $min operator
+- Array operations ($push, $addToSet, $pop, $pull, $pullAll)
+- replaceOne (replace entire document)
+- deleteOne
+- Difference between deleting field vs document
+
+Commands Learned:
+
+1. View Data
+db.childrens.find()
+
+--------------------------------------------------
+
+2. updateOne (Basic Update)
+db.childrens.updateOne(
+  { name: "Aman" },
+  { $set: { age: 17 } }
+)
+
+--------------------------------------------------
+
+3. Multiply Field Value ($mul)
+db.childrens.updateOne(
+  { name: "Aman" },
+  { $mul: { age: 0.6 } }
+)
+
+--------------------------------------------------
+
+4. View Updated Data
+db.childrens.find()
+
+--------------------------------------------------
+
+5. View Personal Collection
+db.personal.find()
+
+--------------------------------------------------
+
+6. Remove Fields ($unset)
+db.personal.updateOne(
+  { name: "Asif Khan" },
+  { $unset: { age: "", kids: "" } }
+)
+
+--------------------------------------------------
+
+7. Rename Field ($rename)
+db.personal.updateOne(
+  { name: "Asif Khan" },
+  { $rename: { weight: "Height" } }
+)
+
+--------------------------------------------------
+
+8. Rename Field for All Documents (updateMany)
+db.personal.updateMany(
+  {},
+  { $rename: { married: "shadi Hua?" } }
+)
+
+--------------------------------------------------
+
+9. Add Current Date to All Documents
+db.personal.updateMany(
+  {},
+  { $currentDate: { lastModified: true } }
+)
+
+--------------------------------------------------
+
+10. Minimum Operator ($min)
+
+Case 1 (No change because 46 > current value)
+db.personal.updateOne(
+  { age: 45 },
+  { $min: { age: 46 } }
+)
+
+Case 2 (Value updated because 30 < current value)
+db.personal.updateOne(
+  { age: 45 },
+  { $min: { age: 30 } }
+)
+
+--------------------------------------------------
+
+11. Add Element to Array ($push)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $push: { hobbies: "Dancing" } }
+)
+
+--------------------------------------------------
+
+12. Avoid Duplicate in Array ($addToSet)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $addToSet: { hobbies: "Dancing" } }
+)
+
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $addToSet: { hobbies: "Fighting" } }
+)
+
+--------------------------------------------------
+
+13. Remove Last Element from Array ($pop)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $pop: { hobbies: 1 } }
+)
+
+--------------------------------------------------
+
+14. Remove First Element from Array ($pop)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $pop: { hobbies: -1 } }
+)
+
+--------------------------------------------------
+
+15. Remove Specific Value from Array ($pull)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $pull: { hobbies: "Dancing" } }
+)
+
+--------------------------------------------------
+
+16. Remove Multiple Values from Array ($pullAll)
+db.personal.updateOne(
+  { _id: ObjectId("your_id_here") },
+  { $pullAll: { hobbies: ["sports", "sleeping"] } }
+)
+
+--------------------------------------------------
+
+17. Replace Entire Document (replaceOne)
+db.personal.replaceOne(
+  { _id: ObjectId("your_id_here") },
+  { name: "Akil", address: "Dharavi", Height: 0 }
+)
+
+--------------------------------------------------
+
+18. Delete One Document
+db.personal.deleteOne(
+  { _id: ObjectId("your_id_here") }
+)
+
+--------------------------------------------------
+
+19. Important Notes:
+
+- updateOne → updates only ONE document
+- updateMany → updates MULTIPLE documents
+- $set → adds/updates fields
+- $unset → removes fields
+- $rename → renames fields
+- $mul → multiplies value
+- $min → updates only if new value is smaller
+- $push → adds value to array (duplicates allowed)
+- $addToSet → adds value only if not present
+- $pop → removes first (-1) or last (1) element
+- $pull → removes specific value
+- $pullAll → removes multiple values
+- replaceOne → replaces entire document
+- deleteOne → deletes whole document (NOT fields)
+
+- ❗ deleteOne cannot remove a field (use $unset for that)
