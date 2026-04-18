@@ -1,0 +1,180 @@
+MongoDB Day 4 Learning
+
+Topics Covered:
+- find() with conditions
+- findOne()
+- Filtering using field values
+- Difference between find() and findOne()
+- Projection (select specific fields)
+- Excluding _id field
+- count() documents
+- sort() ascending and descending
+- limit()
+- skip()
+- Combining projection + sort + limit + skip
+
+Commands Learned:
+
+1. View All Documents
+db.childrens.find()
+
+--------------------------------------------------
+
+2. Find Documents by Course
+
+Wrong Way (causes error)
+db.childrens.find({course:MCA})
+
+Correct Way
+db.childrens.find({course:"MCA"})
+
+--------------------------------------------------
+
+3. Find Documents by Name
+db.childrens.find({name:"Ali"})
+
+--------------------------------------------------
+
+4. Find Only One Document
+db.childrens.findOne({course:"MCA"})
+
+--------------------------------------------------
+
+5. Projection (Show Selected Fields)
+db.childrens.find(
+  {course:"MCA"},
+  {name:1, age:1}
+)
+
+--------------------------------------------------
+
+6. Projection Without _id
+db.childrens.find(
+  {course:"MCA"},
+  {name:1, age:1, _id:0}
+)
+
+--------------------------------------------------
+
+7. Projection with Only Name
+db.childrens.find(
+  {course:"MCA"},
+  {name:1, _id:0}
+)
+
+--------------------------------------------------
+
+8. Using projection() Method
+db.childrens.find(
+  {course:"MCA"}
+).projection(
+  {name:1, age:1, _id:0}
+)
+
+--------------------------------------------------
+
+9. Projection for All Documents
+db.childrens.find()
+.projection(
+  {name:1, age:1, _id:0}
+)
+
+--------------------------------------------------
+
+10. Count Total Documents
+db.childrens.find().count()
+
+--------------------------------------------------
+
+11. Count Filtered Documents
+db.childrens.find(
+  {course:"MCA"}
+).count()
+
+--------------------------------------------------
+
+12. Sort by Name (Ascending)
+db.childrens.find()
+.sort({name:1})
+
+--------------------------------------------------
+
+13. Projection + Sort by Age (Ascending)
+db.childrens.find()
+.projection(
+  {_id:0, name:1, age:1}
+)
+.sort({age:1})
+
+--------------------------------------------------
+
+14. Projection + Sort by Age (Descending)
+db.childrens.find()
+.projection(
+  {_id:0, name:1, age:1}
+)
+.sort({age:-1})
+
+--------------------------------------------------
+
+15. Projection + Sort by Name (Descending)
+db.childrens.find()
+.projection(
+  {_id:0, name:1, age:1}
+)
+.sort({name:-1})
+
+--------------------------------------------------
+
+16. limit()
+
+Wrong Way (syntax error)
+db.childrens.find()
+.projection({_id:0,name:1,age:1})
+.limit(2))
+
+Correct Way
+db.childrens.find()
+.projection({_id:0,name:1,age:1})
+.limit(2)
+
+--------------------------------------------------
+
+17. Limit 1 Document
+db.childrens.find()
+.projection({_id:0,name:1,age:1})
+.limit(1)
+
+--------------------------------------------------
+
+18. Limit + Skip
+
+Skip first 1 document
+db.childrens.find()
+.projection({_id:0,name:1,age:1})
+.limit(3)
+.skip(1)
+
+--------------------------------------------------
+
+19. Skip first 2 documents
+db.childrens.find()
+.projection({_id:0,name:1,age:1})
+.limit(3)
+.skip(2)
+
+--------------------------------------------------
+
+Important Notes:
+
+- find() → returns multiple documents
+- findOne() → returns only first matching document
+- Projection → selects specific fields only
+- _id is shown by default
+- _id:0 → hides _id field
+- count() → counts documents
+- sort({field:1}) → ascending order
+- sort({field:-1}) → descending order
+- limit(n) → shows only first n documents
+- skip(n) → skips first n documents
+- Quotes are compulsory for string values
