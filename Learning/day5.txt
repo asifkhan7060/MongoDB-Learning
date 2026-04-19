@@ -1,0 +1,60 @@
+MongoDB Day 5 Learning
+
+Topics Covered:
+- find() with conditions
+- Comparison operators ($eq, $ne, $gt, $gte, $lt, $lte)
+- Array matching using $in and $nin
+- Updating multiple documents using updateMany()
+- Deleting multiple documents using deleteMany()
+- Using rollno conditions for filtering
+- Updating class field using $set
+
+Commands Learned:
+
+1. Show All Student Data
+db.student.find()
+
+2. Find Using Equal Operator
+db.student.find({rollno: {$eq: 28}})
+
+3. Simple Equal Search
+db.student.find({rollno: 28})
+
+4. Wrong Operator Example
+db.student.find({rollno: {$neq: 28}})
+
+5. Not Equal Operator
+db.student.find({rollno: {$ne: 28}})
+
+6. Greater Than
+db.student.find({rollno: {$gt: 31}})
+
+7. Greater Than Equal To
+db.student.find({rollno: {$gte: 31}})
+
+8. Less Than
+db.student.find({rollno: {$lt: 31}})
+
+9. Less Than Equal To
+db.student.find({rollno: {$lte: 31}})
+
+10. Match Multiple Values Using $in
+db.student.find({rollno: {$in: [28, 29]}})
+
+11. Exclude Multiple Values Using $nin
+db.student.find({rollno: {$nin: [28, 29]}})
+
+12. Update Multiple Documents
+db.student.updateMany(
+  {rollno: {$gt: 31}},
+  {$set: {class: "Computer"}}
+)
+
+13. View Updated Data
+db.student.find()
+
+14. Delete Multiple Documents
+db.student.deleteMany({rollno: {$gte: 31}})
+
+15. View Remaining Data
+db.student.find()
