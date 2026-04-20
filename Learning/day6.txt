@@ -1,0 +1,165 @@
+MongoDB Day 6 Learning
+
+Logical Operators in MongoDB
+
+Logical operators are used when we want to apply multiple conditions in a query.
+
+1. $and
+Used when ALL conditions must be true
+
+Example:
+Find student whose rollno is greater than 28 AND less than 30
+
+db.student.find({
+  $and: [
+    { rollno: { $gt: 28 } },
+    { rollno: { $lt: 30 } }
+  ]
+})
+
+Only rollno 29 will match
+
+--------------------------------------------------
+
+2. $or
+Used when ANY ONE condition must be true
+
+Example:
+Find student whose rollno is 28 OR age is 45
+
+db.student.find({
+  $or: [
+    { rollno: 28 },
+    { age: 45 }
+  ]
+})
+
+If either condition matches, document will be shown
+
+--------------------------------------------------
+
+3. $nor
+Used when NONE of the conditions should be true
+
+Example:
+Find students whose rollno is not 28 AND age is not 45
+
+db.student.find({
+  $nor: [
+    { rollno: 28 },
+    { age: 45 }
+  ]
+})
+
+Documents matching these conditions will be excluded
+
+--------------------------------------------------
+
+4. $not
+Used to reverse a condition
+
+Example:
+Find students whose rollno is NOT greater than 28
+
+db.student.find({
+  rollno: {
+    $not: { $gt: 28 }
+  }
+})
+
+This returns rollno 28 or less
+
+==================================================
+
+Topics Covered:
+- Combining logical operators with projection
+- AND, OR, NOR with multiple fields
+- Filtering mixed structured data
+- Deleting documents using logical conditions
+- Handling documents with missing fields
+- Applying projection in logical queries
+
+Commands Learned:
+
+1. View Data
+db.student.find()
+
+2. AND Operator (Range Condition)
+db.student.find({
+  $and: [
+    { rollno: { $gt: 28 } },
+    { rollno: { $lt: 30 } }
+  ]
+})
+
+3. AND with Projection
+db.student.find(
+  {
+    $and: [
+      { rollno: { $gt: 28 } },
+      { rollno: { $lt: 30 } }
+    ]
+  },
+  {
+    name: 1,
+    _id: 0
+  }
+)
+
+4. OR Operator with Multiple Fields
+db.student.find(
+  {
+    $or: [
+      { rollno: { $eq: 28 } },
+      { age: { $eq: 45 } }
+    ]
+  },
+  {
+    name: 1,
+    age: 1,
+    rollno: 1,
+    _id: 0
+  }
+)
+
+5. NOR Operator
+db.student.find(
+  {
+    $nor: [
+      { rollno: { $eq: 28 } },
+      { age: { $eq: 45 } }
+    ]
+  },
+  {
+    name: 1,
+    age: 1,
+    rollno: 1,
+    _id: 0
+  }
+)
+
+6. NOR with Single Condition
+db.student.find(
+  {
+    $nor: [
+      { rollno: { $eq: 28 } }
+    ]
+  },
+  {
+    name: 1,
+    age: 1,
+    rollno: 1,
+    _id: 0
+  }
+)
+
+7. Delete One Document using AND Condition
+db.student.deleteOne({
+  $and: [
+    { rollno: { $gt: 28 } },
+    { rollno: { $lt: 30 } }
+  ]
+})
+
+8. View Data After Deletion
+db.student.find()
