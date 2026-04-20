@@ -58,3 +58,5 @@ db.student.deleteMany({rollno: {$gte: 31}})
 
 15. View Remaining Data
 db.student.find()
+
+DONE
