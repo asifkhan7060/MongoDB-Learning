@@ -163,3 +163,5 @@ db.student.deleteOne({
 
 8. View Data After Deletion
 db.student.find()
+
+DONE
